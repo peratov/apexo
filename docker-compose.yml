@@ -1,0 +1,28 @@
+services:
+  apexoapp:
+    image: apexoapp
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 8000:8000
+      - 3001:3001
+
+  couchdb:
+    image: couchdb:latest
+    restart: always
+    ports:
+      - "5984:5984"
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=YOURPASSWORD
+    volumes:
+      - ./couchdb/local.ini:/opt/couchdb/etc/local.d/local.ini
+      - couchdb_data:/opt/couchdb/data
+
+volumes:
+  couchdb_data:
